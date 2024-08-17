@@ -167,7 +167,9 @@ select{
     background-color:  rgba(33, 255, 33, 0.253);
 }
 .project-head,.user-div{
+    text-transform: capitalize;
     background-color: #4f4fff43;
+    margin-top: 20px;
     font-size: 26px;
     padding: 30px;
     border-radius: 10px;
@@ -182,36 +184,33 @@ select{
 .project-head span{
     float: right;
     font-size: 20px;
+    text-transform: capitalize;
 }
 
 .item{
     display: flex;
     justify-content: space-around;
     padding: 20px 10px;
+    font-size: 18px;
 
 }
-span{
-    margin:0px 30px;
+.item span{
     font-size: 16px;
+}
+span{
+    font-size: 26px;
+    margin:0px 20px;
+    width: 230px;
 }
 .delete,.check,.edit{
     color: rgb(251, 47, 47);
-    font-size: 20px;
+    font-size: 16px;
     margin:0px 10px 0 0;
     cursor: pointer;
     float: right;
    
 }
-.check{
-    color: transparent;
-    border: 3px solid var(--main-icon-color);
-    /* background-color: white; */
-    font-size: 22px;
-    width: 22px;
-    height: 22px;
-    margin-left: 20px;
 
-}
 .edit{
     color: var(--main-icon-color);
 }
@@ -222,7 +221,7 @@ span{
 li{
     padding:10px 40px ;
     display: block;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 500;
     border: 0px solid transparent;
     cursor: pointer;
@@ -337,3 +336,10 @@ option{
 label{
     text-align: center;
 }
+.a{
+    color: transparent;
+    border: 3px solid var(--main-icon-color);
+    width: 18px;
+    height: 18px;
+    margin-left: 20px;
+  }
