@@ -34,12 +34,12 @@
     background-color: var(--main-body-color);
     height: 100%;
     width: 85%;
-    padding: 100px 400px;
+    padding: 70px 400px;
     overflow-y: hidden;
 
 }
 h4,.side-bar button{
-    padding:10px 20px ;
+    padding:10px ;
     display: block;
     font-size: 16px;
     font-weight: 500;
@@ -101,8 +101,8 @@ h2{
     font-size: 18px;
 }
 input{
-    font-size: 20px;
-    padding: 5px 15px;
+    font-size: 16px;
+    padding: 10px 15px;
     border-radius: 5px;
     margin-right: 40px;
     border: 0px solid black;
@@ -130,24 +130,27 @@ select:hover{
     
 }
 select{
-    padding: 10px 20px;
+    text-align: center;
+    padding: 10px 10px;
     border-radius: 5px;
     border: 0px solid black;
-    /* border-right: 10px solid #4f4fff; */
     margin-right: 60px;
     cursor: pointer;
     background-color: #4f4fff43;
 }
 
-.projects,.progress,.items,.item,.search-paragraph,.filter-paragraph,.plus-paragraph,.warm,.confirm-message{
+.projects,.progress,.items,.item,.search-paragraph,.filter-paragraph,.plus-paragraph,.warm,.confirm-message,.display-paragraph{
     background-color: rgba(33, 255, 33, 0.253);
-    padding: 20px 0px 20px 40px;
+    padding: 25px;
     border-radius: 10px;
-    margin: 20px 0px;
-    font-size: 16px;
+    margin: 10px 0px 20px 0px;
+    font-size: 20px;
     width: 650px;
     cursor:default;
 
+}
+.display-paragraph{
+    margin-bottom: 30px;
 }
 .warm,.no{
     background-color: rgba(251, 47, 47, 0.394);
@@ -160,10 +163,8 @@ select{
     border-radius: 10px;
     padding: 20px;
 }
-/* .projects,.progress,.items{
-    padding: 20px 0px 20px 40px;
-} */
-.search-paragraph:hover,.filter-paragraph:hover,.plus-paragraph:hover{
+
+.search-paragraph:hover,.filter-paragraph:hover,.plus-paragraph:hover,.display-paragraph:hover{
     background-color:  rgba(33, 255, 33, 0.253);
 }
 .project-head,.user-div{
@@ -204,11 +205,18 @@ span{
 }
 .delete,.check,.edit{
     color: rgb(251, 47, 47);
-    font-size: 16px;
+    font-size: 18px;
     margin:0px 10px 0 0;
     cursor: pointer;
     float: right;
    
+}
+li .delete{
+    margin-left: 5px;
+    float:right;
+    position: relative;
+    left: -30px;
+
 }
 
 .edit{
@@ -221,7 +229,7 @@ span{
 li{
     padding:10px 40px ;
     display: block;
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 500;
     border: 0px solid transparent;
     cursor: pointer;
@@ -273,7 +281,7 @@ li{
     background-color: #4f4fff6e;
 }
 .plus-select,.is-completed-select,.priority-select{
-    width: 120px;
+    width: 100px;
     background-color: white;
     border: 1px solid rgb(155, 155, 155);
 }
@@ -283,6 +291,8 @@ li{
 }
 option{
     background-color: white;
+    padding: 20px;
+    text-align: left;
 }
 .s{
     position: relative;
