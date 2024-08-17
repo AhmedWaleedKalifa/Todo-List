@@ -1,0 +1,339 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+    user-select: none;
+}
+
+:root {
+    --main-body-color: #f4f4f4;
+    --main-body-hover-color: #dedede;
+    --main-color: #E25150;
+    --side-bar-body-color: #f0ece8;
+    --main-icon-color:#4F4FFF;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+    max-height: 200vh;
+    height: 100vh;
+    align-items: center;
+}
+
+.side-bar {
+    background-color: var(--side-bar-body-color);
+    height: 100%;
+    width: 280px;
+    flex-shrink:0;
+    padding-top: 20px;
+}
+
+.main {
+    background-color: var(--main-body-color);
+    height: 100%;
+    width: 85%;
+    padding: 100px 400px;
+    overflow-y: hidden;
+
+}
+h4,.side-bar button{
+    padding:10px 20px ;
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    border: 0px solid transparent;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    background-color: var(--side-bar-body-color);
+}
+h4:hover,.side-bar button:hover,li:hover{
+    background-color: var(--main-body-hover-color);
+}
+i{
+    font-size: 20px;
+    padding-right: 8px;
+}
+.fa-user{
+    color: var(--main-icon-color);
+}
+.side-bar  .my-projects{
+    margin-top: 40px;
+   background-color: #4f4fff28; 
+}
+.side-bar  .my-projects:hover{
+    background-color: #4f4fff3f; 
+}
+.side-bar .my-projects i{
+    margin-left: 40px;
+}
+.fa-circle-plus,.fa-magnifying-glass{
+    position: relative;
+    top: 2px;
+    right: 2px;
+    color: rgb(54, 187, 54);
+    font-size: 22px;
+}
+.my-projects .fa-circle-plus{
+    color: rgb(251, 47, 47);
+}
+.fa-magnifying-glass{
+    color: black;
+}
+.fa-display{
+    position: relative;
+    top: 2px;
+}
+h2{
+    display: block;
+    font-size: 24px;
+    margin-bottom:20px;
+    font-weight: 400;
+}
+
+.card{
+    background-color: rgba(33, 255, 33, 0.253);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+input{
+    font-size: 20px;
+    padding: 5px 15px;
+    border-radius: 5px;
+    margin-right: 40px;
+    border: 0px solid black;
+    box-shadow: 2px 5px 10px 2px rgba(39, 39, 39, 0.049);
+    margin-bottom: 20px;
+}
+:focus{
+    outline: none;
+}
+.search-button,.apply-button,.form-button{
+    display: inline;
+    padding: 10px;
+    border-radius: 5px;
+    border: 0px solid black;
+    background-color: #4f4fff43;
+    cursor: pointer;
+    text-align: center;
+}
+.search-button:hover,.apply-button:hover,.form-button{
+    background-color:#4f4fff6e;
+}
+select:hover{
+    background-color:#4f4fff6e;
+    /* border-right: 10px solid #4f4fff43; */
+    
+}
+select{
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 0px solid black;
+    /* border-right: 10px solid #4f4fff; */
+    margin-right: 60px;
+    cursor: pointer;
+    background-color: #4f4fff43;
+}
+
+.projects,.progress,.items,.item,.search-paragraph,.filter-paragraph,.plus-paragraph,.warm,.confirm-message{
+    background-color: rgba(33, 255, 33, 0.253);
+    padding: 20px 0px 20px 40px;
+    border-radius: 10px;
+    margin: 20px 0px;
+    font-size: 16px;
+    width: 650px;
+    cursor:default;
+
+}
+.warm,.no{
+    background-color: rgba(251, 47, 47, 0.394);
+}
+.warm:hover,.no:hover{
+    background-color: rgba(251, 47, 47, 0.394);
+
+}
+.no{
+    border-radius: 10px;
+    padding: 20px;
+}
+/* .projects,.progress,.items{
+    padding: 20px 0px 20px 40px;
+} */
+.search-paragraph:hover,.filter-paragraph:hover,.plus-paragraph:hover{
+    background-color:  rgba(33, 255, 33, 0.253);
+}
+.project-head,.user-div{
+    background-color: #4f4fff43;
+    font-size: 26px;
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 650px;
+    cursor:default;
+    
+}
+.project-head:hover{
+    background-color: #4f4fff43;
+}
+.project-head span{
+    float: right;
+    font-size: 20px;
+}
+
+.item{
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 10px;
+
+}
+span{
+    margin:0px 30px;
+    font-size: 16px;
+}
+.delete,.check,.edit{
+    color: rgb(251, 47, 47);
+    font-size: 20px;
+    margin:0px 10px 0 0;
+    cursor: pointer;
+    float: right;
+   
+}
+.check{
+    color: transparent;
+    border: 3px solid var(--main-icon-color);
+    /* background-color: white; */
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+    margin-left: 20px;
+
+}
+.edit{
+    color: var(--main-icon-color);
+}
+
+.due{
+    width: 160px;
+}
+li{
+    padding:10px 40px ;
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    border: 0px solid transparent;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    background-color: var(--side-bar-body-color);
+}
+
+.plus-form{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color:var(--side-bar-body-color) ;
+    width:650px ;
+}
+.plus-form input{
+    margin: 0;
+}
+.plus-form h4:hover{
+    background-color:  rgba(33, 255, 33, 0.253);
+}
+
+.plus-form h4{
+    width: 290px;
+}
+.plus-form h4:hover{
+    background-color: var(--side-bar-body-color);
+}
+
+.main .search-input{
+    position: relative;
+}
+.cont{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.search-button{
+    position: relative;
+    top: -10px;
+}
+.form-button{
+    margin-top: 20px;
+    width: 100px;
+    background-color: #4f4fff43;
+   
+}
+.form-button:hover{
+    background-color: #4f4fff6e;
+}
+.plus-select,.is-completed-select,.priority-select{
+    width: 120px;
+    background-color: white;
+    border: 1px solid rgb(155, 155, 155);
+}
+.plus-select:hover,.is-completed-select:hover,.priority-select:hover{
+    background-color: rgb(198, 197, 197);
+    border: 1px solid transparent ;
+}
+option{
+    background-color: white;
+}
+.s{
+    position: relative;
+    right: 10px;
+    width: 0px;
+}
+
+
+.edit-form{
+    display: flex;
+    width: 660px;
+    height: 100px;
+    flex-wrap: wrap;
+    padding: 15px;
+    background-color: var(--side-bar-body-color);
+    border-radius: 10px;
+    align-items: center;
+}
+.edit-form input,.edit-select,.edit-form select,.edit-form div{
+    width: 80px;
+    height: 20px;
+    margin: 0px;
+    margin-right: 5px;
+    background-color: white;
+    font-size: 12px;
+    border-radius: 0px;
+    border: 0px solid ;
+    padding: 0;
+
+}
+.edit-form div{
+    background-color: #4f4fff43;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+.edit-form input[type="time"],.edit-form input[type="date"]{
+    width: 100px;
+}
+.edit-form label{
+    min-width: 40px;
+    padding: 2px;
+    height: 20px;
+    background-color: white;
+    font-size: 12px;
+    border-radius: 0px;
+    border: 0px solid ;
+}
+.edit-form label{
+    text-align: center;
+}
+label{
+    text-align: center;
+}
