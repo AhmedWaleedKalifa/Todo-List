@@ -200,6 +200,11 @@ class TodoList {
         })
         return arr
     }
+    updateAllProjectsProgress() {
+        this.getProjects().forEach(e => {
+            e.updateProgress()
+        })
+    }
     setProjects(projects) {
         this.#projects = projects;
     }
@@ -235,7 +240,9 @@ class UserGraphicInterface {
             Counter1++;
             this.main.innerHTML = ""
             this.printUserInfo(user);
-
+            this.user.getTodoList().getProjects().forEach(e => {
+                e.updateProgress();
+            })
         })
         this.addTaskButton.addEventListener("click", () => {
             this.main.innerHTML = "";
@@ -281,15 +288,16 @@ class UserGraphicInterface {
 
     }
     printUserInfo(user) {
+        this.user.getTodoList().updateAllProjectsProgress()
         user.getTodoList().updateProgress();
         const name = document.createElement("h2");
         const email = document.createElement("h2");
         const projects = document.createElement("h2");
-        projects.classList.add("projects")
+        projects.classList.add("message")
         const items = document.createElement("h2")
-        items.classList.add("items");
+        items.classList.add("message");
         const progress = document.createElement("h2")
-        progress.classList.add("progress")
+        progress.classList.add("message")
         const userDiv = document.createElement("div")
         userDiv.classList.add("user-div")
         name.textContent = `Hello! \t` + user.name;
@@ -306,13 +314,11 @@ class UserGraphicInterface {
     }
     printAddTask() {
         const h4 = document.createElement("h4")
-        h4.classList.add("plus-paragraph");
+        h4.classList.add("message");
         h4.textContent = "Enter the information for a new todo item"
         const form = document.createElement("form")
         form.classList.add("plus-form")
-
         const projectSelection = document.createElement("select");
-        projectSelection.classList.add("plus-select")
         this.user.getTodoList().getProjects().forEach(e => {
             const option1 = document.createElement("option");
             option1.setAttribute("value", "#" + e.getName())
@@ -344,8 +350,6 @@ class UserGraphicInterface {
 
         const priorityParagraph = document.createElement("h4")
         const priorityInput = document.createElement("select");
-        priorityInput.classList.add("priority-select")
-        priorityInput.setAttribute("value", "1")
         const pOption1 = document.createElement("option")
         pOption1.setAttribute("value", "1")
         pOption1.textContent = pOption1.value
@@ -354,6 +358,7 @@ class UserGraphicInterface {
         pOption2.textContent = pOption2.value
         const pOption3 = document.createElement("option")
         pOption3.setAttribute("value", "3")
+        pOption3.setAttribute("selected", "")
         pOption3.textContent = pOption3.value
         priorityParagraph.textContent = "Priority: "
 
@@ -363,7 +368,6 @@ class UserGraphicInterface {
 
         const isCompletedParagraph = document.createElement("h4")
         const isCompletedInput = document.createElement("select");
-        isCompletedInput.classList.add("is-completed-select")
         isCompletedParagraph.textContent = "Is completed?: "
         const option1 = document.createElement("option")
         option1.setAttribute("value", false)
@@ -373,7 +377,7 @@ class UserGraphicInterface {
         option2.textContent = option2.value
 
         const button = document.createElement("div");
-        button.classList.add("form-button")
+        button.classList.add("button")
         button.textContent = "submit"
 
         const container = document.createElement("div")
@@ -413,7 +417,7 @@ class UserGraphicInterface {
                 priorityInput.value = 3;
             }
             const notes = notesInput.value;
-            const isCompleted = isCompletedInput.value;
+            const isCompleted = Boolean(isCompletedInput.value);
             const expectedTime = expectedTimeInput.value;
 
             titleInput.value = "";
@@ -424,39 +428,40 @@ class UserGraphicInterface {
             notesInput.value = "";
             isCompletedInput.value = "";
             user.getTodoList().getProjects().forEach(e => {
-                if ("#"+e.getName() == projectSelection.value) {
+                if ("#" + e.getName() == projectSelection.value) {
                     e.addItem(new TodoItem(title, description, dueDate, priority, notes, isCompleted, expectedTime))
-                    return;
+                    e.updateProgress();
                 }
             })
             container.innerHTML = "";
             const h4 = document.createElement("h4")
-            h4.classList.add("confirm-message")
+            h4.classList.add("message")
             h4.textContent = "You make todo Item called " + title + " successfully!"
             container.appendChild(h4);
         })
     }
     printSearch() {
+        this.user.getTodoList().updateAllProjectsProgress()
+
         this.container.setAttribute("id", "5")
 
         const h4 = document.createElement("h4")
         h4.textContent = "Enter the name of item you search for";
-        h4.classList.add("search-paragraph");
-
-        const container = document.createElement("div");
-        container.classList.add("cont")
+        h4.classList.add("message");
 
         const input = document.createElement("input");
         input.classList.add("search-input")
 
         const button = document.createElement("div");
-        button.classList.add("search-button")
+        button.classList.add("button")
         button.textContent = "Search";
 
+        const form = document.createElement("form");
+        form.classList.add("search-form")
         this.main.appendChild(h4)
-        this.main.appendChild(container)
-        container.appendChild(input)
-        container.appendChild(button);
+        this.main.appendChild(form);
+        form.appendChild(input)
+        form.appendChild(button);
 
         button.addEventListener("click", () => {
             const search = this.user.getTodoList().searchForItem();
@@ -468,7 +473,8 @@ class UserGraphicInterface {
                 })
             } else {
                 const warningMessage = document.createElement("h4")
-                warningMessage.classList.add("warm");
+                warningMessage.classList.add("message");
+                warningMessage.classList.add("warm")
                 warningMessage.textContent = "No equivalent result"
                 this.main.appendChild(warningMessage);
             }
@@ -482,11 +488,13 @@ class UserGraphicInterface {
 
     }
     printFilter() {
+        this.user.getTodoList().updateAllProjectsProgress()
+
         this.container.setAttribute("id", "4")
 
         const h4 = document.createElement("h4")
         h4.textContent = "Choose which filter you want to filter by";
-        h4.classList.add("filter-paragraph");
+        h4.classList.add("message");
 
         const select = document.createElement("select");
         const option1 = document.createElement("option");
@@ -499,14 +507,18 @@ class UserGraphicInterface {
         option2.classList.add("option2")
 
         const button = document.createElement("button");
-        button.classList.add("apply-button")
+        button.classList.add("button")
         button.textContent = "Apply";
 
+        const form = document.createElement("form");
+        form.classList.add("filter-form")
+
         this.main.appendChild(h4)
-        this.main.appendChild(select)
+        this.main.appendChild(form)
+        form.appendChild(select)
         select.appendChild(option1)
         select.appendChild(option2)
-        this.main.appendChild(button)
+        form.appendChild(button)
 
         button.addEventListener("click", () => {
             if (select.value == "alphabetically") {
@@ -545,10 +557,13 @@ class UserGraphicInterface {
         });
     }
     printTodoItemsByList(todoList) {
+        this.user.getTodoList().updateAllProjectsProgress()
+
         this.container.setAttribute("id", "3")
-        const h4=document.createElement("h4")
-        h4.classList.add("display-paragraph")
-        h4.textContent="Display all todo items";
+        const h4 = document.createElement("h4")
+        h4.classList.add("message")
+        h4.classList.add("down")
+        h4.textContent = "Display all todo items";
         this.main.appendChild(h4)
         if (this.value == "alphabetically") {
             this.value = "alphabetically";
@@ -563,22 +578,22 @@ class UserGraphicInterface {
             newArray.forEach(e => {
                 this.printItem(e)
             });
-        } 
+        }
         else if (this.value == "priority") {
             this.value = "priority";
 
             const newArray2 = user.getTodoList().getAllItems().sort((a, b) => {
-                return a.getPriority().localeCompare(b.getPriority()); 
+                return a.getPriority().localeCompare(b.getPriority());
             });
             this.user.getTodoList().getProjects().forEach(e => {
                 e.setTodoItems(e.getTodoItems().sort((a, b) => {
-                    return a.getPriority().localeCompare(b.getPriority()); 
+                    return a.getPriority().localeCompare(b.getPriority());
                 }));
             })
             newArray2.forEach(e => {
                 this.printItem(e)
             });
-        } 
+        }
         else {
             this.user.getTodoList().getAllItems().forEach(e => {
                 this.printItem(e)
@@ -587,13 +602,15 @@ class UserGraphicInterface {
         if (this.user.getTodoList().getAllItems().length == 0) {
             this.main.innerHTML = ""
             const h4 = document.createElement("h4")
-            h4.classList.add("no")
+            h4.classList.add("message")
+            h4.classList.add("warm")
             h4.textContent = "There is no todo items"
             this.main.appendChild(h4)
         }
 
     }
     printItem(todoItem) {
+        this.user.getTodoList().updateAllProjectsProgress()
         const itemContainer = document.createElement("div");
         itemContainer.classList.add("item");
 
@@ -609,7 +626,7 @@ class UserGraphicInterface {
 
         const span = document.createElement("span")
         span.textContent = " P" + todoItem.getPriority();
-        span.classList.add("s")
+        span.classList.add("priority-span")
 
         const deleteButton = document.createElement("i");
         deleteButton.classList.add("fa-solid", "fa-trash-can", "delete");
@@ -617,16 +634,16 @@ class UserGraphicInterface {
 
         const isCompletedButton = document.createElement("input");
         isCompletedButton.setAttribute("type", "checkbox")
-        isCompletedButton.classList.add("a")
+        isCompletedButton.classList.add("check-mark")
         isCompletedButton.classList.add("check");
 
         const editedButton = document.createElement("i");
         editedButton.classList.add("fa-solid", "fa-pen-to-square", "edit");
 
         if (todoItem.getPriority() == 1) {
-            itemContainer.setAttribute("style", "background-color: rgba(255, 33, 33, 0.253);")
+            itemContainer.setAttribute("style", "background-color:  var(--container-red);")
         } else if (todoItem.getPriority() == 2) {
-            itemContainer.setAttribute("style", "background:rgba(255, 222, 33, 0.253);")
+            itemContainer.setAttribute("style", "background:var(--container-yellow);")
         }
 
         if (todoItem.getIsComplete() == true || todoItem.getIsComplete() == "true") {
@@ -643,30 +660,15 @@ class UserGraphicInterface {
         div.appendChild(editedButton);
 
         deleteButton.addEventListener("click", () => {
-            for (let i = 0; i < user.getTodoList().getProjects().length; i++) {
-                for (let j = 0; j < user.getTodoList().getProjects()[i].getTodoItems().length; j++) {
-                    if (user.getTodoList().getProjects()[i].getTodoItems()[j] === todoItem && user.getTodoList().getProjects()[i].getName() === todoItem.parentName) {
-                        user.getTodoList().getProjects()[i].removeItem(j);
-                        itemContainer.remove();
-                    }
-                }
-            }
-        });
-        isCompletedButton.addEventListener("click", () => {
-            for (let i = 0; i < user.getTodoList().getProjects().length; i++) {
-                for (let j = 0; j < user.getTodoList().getProjects()[i].getTodoItems().length; j++) {
-                    if (user.getTodoList().getProjects()[i].getTodoItems()[j] === todoItem && user.getTodoList().getProjects()[i].getName() === todoItem.parentName) {
-                        if (todoItem.getIsComplete() == true || todoItem.getIsComplete() == "true") {
-                            user.getTodoList().getProjects()[i].getTodoItems()[j].setIsComplete(false);
+            for (let i = 0; i < this.user.getTodoList().getProjects().length; i++) {
+                for (let j = 0; j < this.user.getTodoList().getProjects()[i].getTodoItems().length; j++) {
+                    if (this.user.getTodoList().getProjects()[i].getTodoItems()[j] === todoItem && user.getTodoList().getProjects()[i].getName() === todoItem.parentName) {
+                        this.user.getTodoList().getProjects()[i].removeItem(j);
+                        this.user.getTodoList().getProjects()[i].updateProgress();
 
-                        } else if (todoItem.getIsComplete() == false || todoItem.getIsComplete() == "false") {
-                            user.getTodoList().getProjects()[i].getTodoItems()[j].setIsComplete(true);
-                        }
-
-                        user.getTodoList().getProjects()[i].updateProgress()
                         if (this.container.getAttribute("id") == 1 | this.container.getAttribute("id") == "1") {
                             this.main.innerHTML = ""
-                            this.printEachProject(user.getTodoList().getProjects()[i]);
+                            this.printProject(user.getTodoList().getProjects()[i]);
                         } else if (this.container.getAttribute("id") == 2 | this.container.getAttribute("id") == "2") {
                             this.main.innerHTML = ""
                             this.printTodoListProjects(this.user.getTodoList());
@@ -682,6 +684,43 @@ class UserGraphicInterface {
                             this.main.innerHTML = "";
                             this.printSearch();
                         }
+                    }
+                }
+            }
+        });
+        isCompletedButton.addEventListener("click", () => {
+            for (let i = 0; i < user.getTodoList().getProjects().length; i++) {
+                for (let j = 0; j < user.getTodoList().getProjects()[i].getTodoItems().length; j++) {
+                    if (this.user.getTodoList().getProjects()[i].getTodoItems()[j] === todoItem && user.getTodoList().getProjects()[i].getName() === todoItem.parentName) {
+                        if (this.user.getTodoList().getProjects()[i].getTodoItems().length > 0) {
+                            if (todoItem.getIsComplete() == true || todoItem.getIsComplete() == "true") {
+                                this.user.getTodoList().getProjects()[i].getTodoItems()[j].setIsComplete(false);
+
+                            } else if (todoItem.getIsComplete() == false || todoItem.getIsComplete() == "false") {
+                                this.user.getTodoList().getProjects()[i].getTodoItems()[j].setIsComplete(true);
+                            }
+
+                            this.user.getTodoList().getProjects()[i].updateProgress()
+                            if (this.container.getAttribute("id") == 1 | this.container.getAttribute("id") == "1") {
+                                this.main.innerHTML = ""
+                                this.printProject(user.getTodoList().getProjects()[i]);
+                            } else if (this.container.getAttribute("id") == 2 | this.container.getAttribute("id") == "2") {
+                                this.main.innerHTML = ""
+                                this.printTodoListProjects(this.user.getTodoList());
+                            }
+                            else if (this.container.getAttribute("id") == 3 | this.container.getAttribute("id") == "3") {
+                                this.main.innerHTML = ""
+                                this.printTodoItemsByList(user.getTodoList())
+                            }
+                            else if (this.container.getAttribute("id") == 4 | this.container.getAttribute("id") == "4") {
+                                this.main.innerHTML = " "
+                                this.printFilter();
+                            } else if (this.container.getAttribute("id") == 5 | this.container.getAttribute("id") == "5") {
+                                this.main.innerHTML = "";
+                                this.printSearch();
+                            }
+                        }
+
                     }
                 }
             }
@@ -702,7 +741,7 @@ class UserGraphicInterface {
             const project = document.createElement("li");
             project.addEventListener("click", () => {
                 this.main.innerHTML = ""
-                this.printEachProject(e);
+                this.printProject(e);
                 this.container.setAttribute("id", "1")
             })
             project.textContent = "# " + e.getName();
@@ -716,18 +755,19 @@ class UserGraphicInterface {
                 const projectIndex = this.user.getTodoList().getProjects().indexOf(e);
                 if (projectIndex !== -1) {
                     this.user.getTodoList().removeProject(projectIndex);
-                    project.remove(); 
+                    project.remove();
                 }
             });
         })
 
         const allProjects = document.createElement("li");
-        allProjects.style.color = "#4F4FFF"
+        allProjects.style.color = "var(--main-icon-color)"
         allProjects.addEventListener("click", () => {
             if (this.user.getTodoList().getProjects().length == 0) {
                 this.main.innerHTML = ""
                 const h4 = document.createElement("h4")
-                h4.classList.add("no")
+                h4.classList.add("message")
+                h4.classList.add("warm")
                 h4.textContent = "There is no projects"
                 this.main.appendChild(h4)
             } else {
@@ -742,8 +782,9 @@ class UserGraphicInterface {
 
     }
     printAddProject() {
+        this.user.getTodoList().updateAllProjectsProgress()
         const h4 = document.createElement("h4")
-        h4.classList.add("plus-paragraph");
+        h4.classList.add("message");
         h4.textContent = "Enter the information for a new project"
 
         const form = document.createElement("form")
@@ -754,7 +795,7 @@ class UserGraphicInterface {
 
         const nameInput = document.createElement("input");
         const button = document.createElement("div");
-        button.classList.add("form-button")
+        button.classList.add("button")
         button.textContent = "Make"
 
         const container = document.createElement("div")
@@ -772,7 +813,7 @@ class UserGraphicInterface {
             this.user.getTodoList().addProject(new TodoProject(name))
             container.innerHTML = "";
             const h42 = document.createElement("h4")
-            h42.classList.add("confirm-message")
+            h42.classList.add("message")
             this.projectList.innerHTML = ""
             h42.textContent = "You make project called  " + name + " successfully!"
             this.printProjectsDownMenu(this.user.getTodoList())
@@ -780,7 +821,9 @@ class UserGraphicInterface {
         })
     }
 
-    printEachProject(todoProject) {
+    printProject(todoProject) {
+        console.log(todoProject.getTodoItems())
+        this.user.getTodoList().updateAllProjectsProgress()
         const projectName = document.createElement("h4")
         projectName.classList.add("project-head");
         projectName.textContent = todoProject.getName()
@@ -793,14 +836,15 @@ class UserGraphicInterface {
         })
     }
     printTodoListProjects(todoList) {
+        this.user.getTodoList().updateAllProjectsProgress()
         todoList.getProjects().forEach(e => {
-            this.printEachProject(e);
+            this.printProject(e);
         })
     }
     printEdit() {
+        this.user.getTodoList().updateAllProjectsProgress()
         this.main.innerHTML = ""
         const select = document.createElement("select");
-        select.classList.add("edit-select")
         this.user.getTodoList().getProjects().forEach(e => {
             const option1 = document.createElement("option");
             option1.setAttribute("value", e.getName())
@@ -830,7 +874,6 @@ class UserGraphicInterface {
         dueDateInput.setAttribute("value", currentTime.toISOString().slice(0, 10))
         const priorityParagraph = document.createElement("label")
         const priorityInput = document.createElement("select");
-        priorityInput.classList.add("edit-select")
         priorityInput.setAttribute("value", "1")
         const pOption1 = document.createElement("option")
         pOption1.setAttribute("value", "1")
@@ -862,28 +905,28 @@ class UserGraphicInterface {
         option2.textContent = option2.value
         expectedTimeParagraph.textContent = "Time: "
         const div = document.createElement("div");
-        div.classList.add("form-button")
+        div.classList.add("button")
         div.textContent = "submit"
         this.main.appendChild(form)
         form.appendChild(select)
         form.appendChild(titleParagraph)
-        form.appendChild(titleInput)
+        titleParagraph.appendChild(titleInput)
         form.appendChild(descriptionParagraph)
-        form.appendChild(descriptionInput)
+        descriptionParagraph.appendChild(descriptionInput)
         form.appendChild(expectedTimeParagraph)
-        form.appendChild(expectedTimeInput)
+        expectedTimeParagraph.appendChild(expectedTimeInput)
         form.appendChild(dueDateParagraph)
-        form.appendChild(dueDateInput)
+        dueDateParagraph.appendChild(dueDateInput)
         form.appendChild(priorityParagraph)
+        priorityParagraph.appendChild(priorityInput)
         priorityInput.appendChild(pOption1)
         priorityInput.appendChild(pOption2)
         priorityInput.appendChild(pOption3)
 
-        form.appendChild(priorityInput)
         form.appendChild(notesParagraph)
-        form.appendChild(notesInput)
+        notesParagraph.appendChild(notesInput)
         form.appendChild(isCompletedParagraph)
-        form.appendChild(isCompletedInput)
+        isCompletedParagraph.appendChild(isCompletedInput)
         isCompletedInput.appendChild(option1)
         isCompletedInput.appendChild(option2)
         isCompletedInput.classList.add("is-completed-select")
@@ -926,7 +969,7 @@ class UserGraphicInterface {
             container.appendChild(h4);
         })
     }
-    
+
 }
 const user = new User("User", "User@gmail.com")
 const item = new TodoItem("cooking", "cooking some meet and rice.", "2024-8-15", "1", "don't forget to make the time table", true, "02:00");
@@ -939,12 +982,11 @@ const project2 = new TodoProject("work");
 project.addItem(item);
 project.addItem(item3)
 project.addItem(item2)
-
 project2.addItem(item5)
 project2.addItem(item4)
 const printer = new UserGraphicInterface(user);
 user.getTodoList().addProject(project)
 user.getTodoList().addProject(project2)
-// printer.printEdit()
+printer.printEdit()
 
 
